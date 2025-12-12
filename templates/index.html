@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>가챠 시뮬레이터</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>바텀뽑기</h1>
+    
+    <div class="user-info">
+        <img src="{{ url_for('static', filename='profiles/' + profile_image) }}" 
+             alt="Profile Image" 
+             class="profile-img">
+        
+        <span>
+            <strong>{{ nickname }}</strong>님 | 보유 G: <strong>{{ gold }}</strong>G
+        </span>
+    </div>
+
+    <p class="menu-links">
+        <a href="{{ url_for('mypage') }}">마이페이지</a>
+        | 
+        <a href="{{ url_for('logout') }}">로그아웃</a>
+    </p>
+
+    <div class="button-group">
+        
+        <form method="POST" action="{{ url_for('earn_gold') }}" class="earn-form">
+            <button type="submit" class="earn-btn">1G 얻기 (클릭)</button>
+        </form>
+
+        <form method="POST" class="gacha-form">
+            <button type="submit" name="type" value="one" class="gacha-btn">1회 뽑기 (10G)</button>
+            <button type="submit" name="type" value="ten" class="gacha-btn">10회 뽑기 (90G)</button>
+        </form>
+    </div>
+
+    {% if result %}
+        <div class="result-box">
+            <p><strong>--- 결과 ---</strong></p>
+            {% if result is string %}
+                <p style="color: red;">{{ result }}</p>
+            {% else %}
+                {% for r in result %}
+                    <p>{{ r }}</p>
+                {% endfor %}
+            {% endif %}
+        </div>
+    {% endif %}
+
+</body>
+</html>
